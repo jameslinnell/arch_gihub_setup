@@ -1,7 +1,7 @@
-# arch_github_setup
-Setup Github on a clean Arch account
+# github_setup
+Setup Github on a clean Arch or Ubuntu account
 
 ##
 ```
-./setup_github.sh
+./setup_github_arch.sh
 ```
