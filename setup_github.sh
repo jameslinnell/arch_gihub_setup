@@ -5,26 +5,26 @@ set -e
 # Detect operating system
 echo "Detecting operating system..."
 if [[ -f /etc/os-release ]]; then
-    . /etc/os-release
-    OS=$ID
+  . /etc/os-release
+  OS=$ID
 else
-    echo "Unsupported operating system. Exiting."
-    exit 1
+  echo "Unsupported operating system. Exiting."
+  exit 1
 fi
 
 # Install necessary packages
 echo "Installing required packages..."
 case $OS in
-    arch)
-        sudo pacman -Sy --needed git gnupg openssh gh --noconfirm
-        ;;
-    ubuntu)
-        sudo apt update && sudo apt install -y git gnupg openssh-client gh
-        ;;
-    *)
-        echo "Unsupported operating system: $OS. Exiting."
-        exit 1
-        ;;
+arch)
+  sudo pacman -Sy --needed git gnupg openssh github-cli --noconfirm
+  ;;
+ubuntu)
+  sudo apt update && sudo apt install -y git gnupg openssh-client gh
+  ;;
+*)
+  echo "Unsupported operating system: $OS. Exiting."
+  exit 1
+  ;;
 esac
 
 # Configure Git (prompting for user input)
@@ -39,12 +39,12 @@ git config --global init.defaultBranch main
 echo "Generating SSH key..."
 ssh_key_path="$HOME/.ssh/id_ed25519"
 if [[ -f "$ssh_key_path" ]]; then
-    echo "SSH key already exists at $ssh_key_path."
+  echo "SSH key already exists at $ssh_key_path."
 else
-    ssh-keygen -t ed25519 -C "$git_email" -f "$ssh_key_path" -N ""
-    eval "$(ssh-agent -s)"
-    ssh-add "$ssh_key_path"
-    echo "SSH key generated."
+  ssh-keygen -t ed25519 -C "$git_email" -f "$ssh_key_path" -N ""
+  eval "$(ssh-agent -s)"
+  ssh-add "$ssh_key_path"
+  echo "SSH key generated."
 fi
 
 # Authenticate with GitHub CLI using a Personal Access Token
